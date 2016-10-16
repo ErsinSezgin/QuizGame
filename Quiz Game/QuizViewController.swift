@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuizViewController: UIViewController {
+class QuizViewController: UIViewController, ReplayDelegate {
 
     @IBOutlet weak var buttonA: UIButton!
     @IBOutlet weak var buttonB: UIButton!
@@ -71,7 +71,17 @@ class QuizViewController: UIViewController {
         if(questionCount == 10){
             question.text = "Game is over! \nPlease continue to the scoreboard"
             continueButton.isHidden = false
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            self.view.isUserInteractionEnabled = true
         }
+    }
+    
+    func replay(sender: ScoreBoardViewController) {
+        self.view.isUserInteractionEnabled = true
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        questionCount = 0
+        correctAnsCount = 0
+        resetQuestion()
     }
     
     @IBAction func answerSelected(_ sender: UIButton){
@@ -91,6 +101,14 @@ class QuizViewController: UIViewController {
     }
     
     @IBAction func continueButtonPressed(_ sender: AnyObject) {
-        
+        self.performSegue(withIdentifier: "ScoreBoardSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ScoreBoardSegue" {
+            let vc = segue.destination as! ScoreBoardViewController
+            vc.delegate = self
+            vc.score = correctAnsCount
+        }
     }
 }

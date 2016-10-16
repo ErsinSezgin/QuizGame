@@ -9,7 +9,7 @@
 import UIKit
 
 class QuizHelper: NSObject {
-    var answers : [Answer]?
+    var answers : [Answer]!
     var correctAnswer : Int = 0
     var q: String = ""
     
@@ -23,11 +23,18 @@ class QuizHelper: NSObject {
     }
     
     func fillAnswersArray(answer: Int){
-        answers?.append(Answer(value: answer, correct: true))
-        answers?.append(Answer(value: answer - 10, correct: false))
-        answers?.append(Answer(value: answer - 20, correct: false))
-        answers?.append(Answer(value: answer + 10, correct: false))
-        answers?.append(Answer(value: answer + 20, correct: false))
+        answers.append(Answer(value: answer, correct: true))
+        answers.append(Answer(value: answer - 10, correct: false))
+        answers.append(Answer(value: answer - 20, correct: false))
+        answers.append(Answer(value: answer + 10, correct: false))
+        answers.append(Answer(value: answer + 20, correct: false))
+        
+        for i in 0...4 {
+            let index = Int(arc4random_uniform(5))
+            let current = answers[i]
+            answers[i] = answers[index]
+            answers[index] = current
+        }
     }
     
     public func checkUserAnswer(answer: Int) -> Bool{

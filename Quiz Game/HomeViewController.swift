@@ -14,8 +14,14 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         nameTF.text = Utility.sharedInstance.getUserName()
-        // Do any additional setup after loading the view.
+    }
+    
+    func dismissKeyboard(){
+        self.view.endEditing(true)
     }
     
     @IBAction func startQuizButtonPressed(_ sender : AnyObject){

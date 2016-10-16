@@ -22,13 +22,18 @@ class ScoreBoardViewController: UIViewController {
     public var delegate: ReplayDelegate! = nil
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.hidesBackButton = true
         titleLabel.text = "Congratz \(Utility.sharedInstance.getUserName())"
-        scoreLabel.text = "\(score!)/10"
+        scoreLabel.text = "Your score is \(score!)/10"
     }
     
     @IBAction func replayButtonPressed(_ sender: AnyObject){
         self.navigationController?.popViewController(animated: true)
         self.delegate.replay(sender: self)
+    }
+    
+    @IBAction func endButtonPressed(_ sender: AnyObject){
+        self.dismiss(animated: true, completion: nil)
     }
     
 }
